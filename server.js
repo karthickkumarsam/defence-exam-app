@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import admin from "firebase-admin";
+import exams from "./exams.js";
+import path from "path"
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,6 +18,10 @@ const serviceAccount = {
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/public", express.static(path.join(__dirname, "public")))
 
 // Firebase init
 if (!admin.apps.length) {
@@ -72,6 +79,37 @@ app.post("/login", async (req, res) => {
     console.error("Login error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
+});
+
+// ✅ Get all exams
+app.get("/exams", async (req, res) => {
+    try {
+        const exams = [
+            { id: "cds", name: "CDS" },
+            { id: "nda", name: "NDA" },
+            { id: "afcat", name: "AFCAT" }
+        ] 
+        if(!exams || !exams.length) return res.status(400).json({ error: "No exams found"}) 
+
+        res.json({ message: "Exams fetched successfully", exams })    
+    } catch (error) {
+        console.error("Fetch exams error:", error)
+        res.status(500).json({ error: "Something went wrong" }) 
+    }
+})
+
+// ✅ Get exams details
+app.get("/exams/:examId", async (req, res) => {
+    try {
+        const { examId } = req.params;
+        const exam = exams.find((e) => e.id == examId);
+        if (!exam) return res.status(404).json({ error: "Exam not found" });
+
+        res.json({ message: "Exam fetched successfully", exam });
+    } catch (error) {
+        console.error("Fetch exam error:", error);
+        res.status(500).json({ error: "Something went wrong" });
+    }
 });
 
 // ✅ Start server
