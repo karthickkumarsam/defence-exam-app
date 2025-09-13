@@ -3,32 +3,37 @@ const exams = [
     id: "nda",
     name: "NDA",
     description: "National Defence Academy",
-    pdfs: [
-      { id: 1, title: "GAT", url: "public/exams/NDA/NDA_1_2025_GAT_Question_Paper_and_Answer_Key_PDF.pdf" },
-      { id: 2, title: "Maths", url: "public/exams/NDA/NDA_1_2025_Maths_Question_Paper_and_Answer_Key_PDF.pdf" },
-      { id: 3, title: "Syllabus", url: "public/exams/NDA/Syllabus.pdf" }
-    ]
+    notification: [
+      { title: "Notification Release", date: 'December 10, 2025' },
+      { title: "Application Begins", date: ' December 10, 2025' },
+      { title: "Application Last Date", date: 'December 30, 2025 ' },
+      { title: "Exam Date", date: 'April 12, 2026' }
+    ],
+    url: "public/exams/CDS/NDA_Previous_Question.pdf"
   },
   {
     id: "cds",
     name: "CDS",
     description: "Combined Defence Services",
-    pdfs: [
-      { id: 1, title: "English", url: "public/exams/CDS/CDS_English_SQP-1.pdf" },
-      { id: 2, title: "GK", url: "public/exams/CDS/CDS_GK_SQP-1.pdf" },
-      { id: 3, title: "Maths", url: "public/exams/CDS/CDS_math_SQP-1.pdf" },
-      { id: 4, title: "Syllabus", url: "public/exams/CDS/Syllabus.pdf" }
-    ]
+    notification: [
+      { title: "CDS 1 2026 Notification", date: 'December 10, 2025' },
+      { title: "CDS 1 2026 Application period", date: 'December 12 to December 30, 2025' },
+      { title: "CDS 1 2026 Exam", date: 'April 12, 2026' },
+      { title: "CDS 2 2026 Notification", date: 'May 20, 2026' },
+      { title: "CDS 2 2026 Application Period", date: 'June 9, 2026 (last date)' },
+      { title: "CDS 2 2026 Exam", date: 'September 13, 2026' }
+    ],
+    url: "public/exams/CDS/CDS_Previous_Question.pdf"
   },
   {
     id: "afcat",
     name: "AFCAT",
     description: "Air Force Common Admission Test",
-    pdfs: [
-      { id: 1, title: "AFCAT Paper 1", url: "public/exams/AFCAT/AFCAT_Memory_Based_Questions_2025_PDF_Feb_22.pdf" },
-      { id: 2, title: "AFCAT Paper 2", url: "public/exams/AFCAT/AFCAT_Memory_Based_Questions_PDF_Feb_23.pdf" },
-      { id: 3, title: "Syllabus", url: "public/exams/AFCAT/Syllabus.pdf" }
-    ]
+    notification: [
+      { title: "For AFCAT 1 2026 (Courses starting July 2026)", date: 'Expected around December 2025.AFCAT 1 2026 Exam: Expected to beheld in February 2026.' },
+      { title: "For AFCAT 2 2026 (Courses starting July 2026)", date: 'Expected in late May 2026.Detailed Notification: Expected around June 2026.' },
+    ],
+    url: "public/exams/AFCAT/AFCAT_Previous_Question.pdf"
   }
 ];
 
