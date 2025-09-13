@@ -87,7 +87,21 @@ app.get("/exams", async (req, res) => {
         const exams = [
             { id: "cds", name: "CDS" },
             { id: "nda", name: "NDA" },
-            { id: "afcat", name: "AFCAT" }
+            { id: "afcat", name: "AFCAT" },
+            { name: "General Knowledge", url: "public/exams/GK/General_Knowledge.pdf" },
+            {
+              name: "Aptitude",
+              aptitude:[
+                { name: "Average", url: "public/exams/Aptitude/Aptitude_Average.pdf" },
+                { name: "Discount", url: "public/exams/Aptitude/Aptitude_Discount.pdf" },
+                { name: "HCF & LCM", url: "public/exams/Aptitude/Aptitude_LCM.pdf" },
+                { name: "Number System", url: "public/exams/Aptitude/Aptitude_Number_System.pdf" },
+                { name: "Partnership", url: "public/exams/Aptitude/Aptitude_Partnership.pdf" },
+                { name: "Percentage", url: "public/exams/Aptitude/Aptitude_Percentage.pdf" },
+                { name: "Simplification", url: "public/exams/Aptitude/Aptitude_Simplification.pdf" },
+                { name: "Trigonometry", url: "public/exams/Aptitude/Aptitude_Trigonometry.pdf" },
+              ]
+            }
         ] 
         if(!exams || !exams.length) return res.status(400).json({ error: "No exams found"}) 
 
