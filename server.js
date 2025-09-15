@@ -39,21 +39,23 @@ app.get("/", (req, res) => res.json({ message: "API is running ✅" }));
 // ✅ Register
 app.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     if (!email || !password)
       return res.status(400).json({ error: "Email and password required" });
 
-    const userDoc = await userCollection.doc(email).get();
-    if (userDoc.exists) return res.status(400).json({ error: "Email already exists" });
+    const existingUser = await userCollection.where("email", "==", email).get();
+    if (!existingUser.empty)
+      return res.status(400).json({ error: "Email already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await userCollection.doc(email).set({
+    const newUserRef = await userCollection.add({
+      name: name || '',
       email,
       password: hashedPassword,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    res.json({ message: "User registered successfully", user: { email } });
+    res.json({ message: "User registered successfully", user: { id: newUserRef.id, email } });
   } catch (err) {
     console.error("Register error:", err);
     res.status(500).json({ error: "Something went wrong" });
@@ -67,14 +69,15 @@ app.post("/login", async (req, res) => {
     if (!email || !password)
       return res.status(400).json({ error: "Email and password required" });
 
-    const userDoc = await userCollection.doc(email).get();
-    if (!userDoc.exists) return res.status(400).json({ error: "Invalid credentials" });
+    const userQuery = await userCollection.where("email", "==", email).limit(1).get();
+    if (userQuery.empty) return res.status(400).json({ error: "Invalid credentials" });
 
+    const userDoc = userQuery.docs[0];
     const userData = userDoc.data();
     const isMatch = await bcrypt.compare(password, userData.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
-    res.json({ message: "Login successful", user: { email } });
+    res.json({ message: "Login successful", user: { id: userDoc.id, email } });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Something went wrong" });
@@ -124,6 +127,54 @@ app.get("/exams/:examId", async (req, res) => {
         console.error("Fetch exam error:", error);
         res.status(500).json({ error: "Something went wrong" });
     }
+});
+
+// ✅ Get Profile by ID
+app.get("/profile/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userDoc = await userCollection.doc(id).get();
+
+    if (!userDoc.exists) return res.status(404).json({ error: "User not found" });
+
+    const userData = userDoc.data();
+    delete userData.password;
+
+    res.json({ message: "Profile fetched successfully", profile: { id, ...userData } });    
+  } catch (error) {
+    console.error("Fetch profile error:", err);
+    res.status(500).json({ error: "Something went wrong" });    
+
+  }
+})
+
+// ✅ Update Profile by ID
+app.put("/profile/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, state, city, mobile, profile } = req.body;
+
+    const userDoc = await userCollection.doc(id).get();
+    if (!userDoc.exists) return res.status(404).json({ error: "User not found" });
+
+    await userCollection.doc(id).update({
+      ...(name && { name }),
+      ...(state && { state }),
+      ...(city && { city }),
+      ...(mobile && { mobile }),
+      ...(profile && { profile }),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    const updatedDoc = await userCollection.doc(id).get();
+    const updatedUser = updatedDoc.data();
+    delete updatedUser.password;
+
+    res.json({ message: "Profile updated successfully", profile: { id, ...updatedUser } });
+  } catch (err) {
+    console.error("Update profile error:", err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 });
 
 // ✅ Start server
