@@ -10,7 +10,13 @@ const exams = [
       { title: "Exam Date", date: 'April 12, 2026' }
     ],
     url: "public/exams/NDA/NDA_Previous_Question.pdf",
-    syllabus: "public/exams/NDA/Syllabus.pdf"
+    syllabus: "public/exams/NDA/Syllabus.pdf",
+    requirements: {
+      age: "16.5-19 yrs",
+      gender: "Male",
+      education: "12th Pass / Equivalent",
+      branch: ["Army", "Navy", "Air Force"]
+    }
   },
   {
     id: "cds",
@@ -25,7 +31,16 @@ const exams = [
       { title: "CDS 2 2026 Exam", date: 'September 13, 2026' }
     ],
     url: "public/exams/CDS/CDS_Previous_Question.pdf",
-    syllabus: "public/exams/CDS/Syllabus.pdf"
+    syllabus: "public/exams/CDS/Syllabus.pdf",
+    requirements: {
+      age: {
+        army: "19–24 yrs",
+        navy_air: "19–22 yrs"
+      },
+      gender: "Male / Female (Air & Naval Only for Male)",
+      education: "Graduate (any stream) for IMA/Air Force Academy",
+      branch: ["Army", "Navy", "Air Force"]
+    }
   },
   {
     id: "afcat",
@@ -36,7 +51,21 @@ const exams = [
       { title: "For AFCAT 2 2026 (Courses starting July 2026)", date: 'Expected in late May 2026.Detailed Notification: Expected around June 2026.' },
     ],
     url: "public/exams/AFCAT/AFCAT_Previous_Question.pdf",
-    syllabus: "public/exams/AFCAT/Syllabus.pdf"
+    syllabus: "public/exams/AFCAT/Syllabus.pdf",
+    requirements: {
+      age: {
+        flying: "20–24 yrs",
+        ground_technical: "20–26 yrs",
+        ground_admin: "20-26 yrs"
+      },
+      gender: "Male / Female",
+      education: {
+        flying: "Graduate (any stream)",
+        ground_technical: "Engineering for Technical Branch",
+        ground_admin: "Graduate (any stream)"
+      },
+      branch: ["Flying Branch", "Ground Duty (Technical)", "Ground Duty (Admin)"]
+    }
   }
 ];
 
